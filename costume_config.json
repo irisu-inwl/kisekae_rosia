@@ -1,0 +1,162 @@
+{
+    "costume_type_list": [
+        {
+            "type_name": "tops",
+            "description": "トップス"
+        },
+        {
+            "type_name": "bottoms",
+            "description": "ボトムス"
+        },
+        {
+            "type_name": "footwear",
+            "description": "履物"
+        },
+        {
+            "type_name": "accessories",
+            "description": "アクセサリ"
+        }
+    ],
+    "costume_info": [
+        {
+            "name": "rosia_costume_upper",
+            "path": "./img/rosia_costume_upper.png",
+            "type": "tops"
+        },
+        {
+            "name": "rosia_costume_skirt",
+            "path": "./img/rosia_costume_skirt.png",
+            "type": "bottoms"
+        },
+        {
+            "name": "rosia_costume_tights",
+            "path": "./img/rosia_costume_tights.png",
+            "type": "footwear"
+        },
+        {
+            "name": "halloween_hair",
+            "path": "./img/halloween_hair.png",
+            "type": "accessories"
+        },
+        {
+            "name": "halloween_upper",
+            "path": "./img/halloween_upper.png",
+            "type": "tops"
+        },
+        {
+            "name": "halloween_skirt",
+            "path": "./img/halloween_skirt.png",
+            "type": "bottoms"
+        },
+        {
+            "name": "halloween_tights",
+            "path": "./img/halloween_tights.png",
+            "type": "footwear"
+        },
+        {
+            "name": "summer_check_school",
+            "path": "./img/summer_check_school.png",
+            "type": "tops"
+        },
+        {
+            "name": "blouse_skirt",
+            "path": "./img/blouse_skirt.png",
+            "type": "tops"
+        },
+        {
+            "name": "sailor_long",
+            "path": "./img/sailor_long.png",
+            "type": "tops"
+        },
+        {
+            "name": "sailor_short",
+            "path": "./img/sailor_short.png",
+            "type": "tops"
+        },
+        {
+            "name": "turtle",
+            "path": "./img/turtle.png",
+            "type": "tops"
+        },
+        {
+            "name": "blazer_black",
+            "path": "./img/blazer_black.png",
+            "type": "tops"
+        },
+        {
+            "name": "blazer_white",
+            "path": "./img/blazer_white.png",
+            "type": "tops"
+        },
+        {
+            "name": "cardigan",
+            "path": "./img/cardigan.png",
+            "type": "tops"
+        },
+        {
+            "name": "nit",
+            "path": "./img/nit.png",
+            "type": "tops"
+        },
+        {
+            "name": "jacklyn_parker",
+            "path": "./img/jacklyn_parker.png",
+            "type": "tops"
+        },
+        {
+            "name": "pleat_long_black",
+            "path": "./img/pleat_long_black.png",
+            "type": "bottoms"
+        },
+        {
+            "name": "pleat_short_black",
+            "path": "./img/pleat_short_black.png",
+            "type": "bottoms"
+        },
+        {
+            "name": "short_pants",
+            "path": "./img/short_pants.png",
+            "type": "bottoms"
+        },
+        {
+            "name": "socks_black",
+            "path": "./img/socks_black.png",
+            "type": "footwear"
+        },
+        {
+            "name": "tights",
+            "path": "./img/tights.png",
+            "type": "footwear"
+        },
+        {
+            "name": "loafer",
+            "path": "./img/loafer.png",
+            "type": "footwear"
+        },
+        {
+            "name": "hat",
+            "path": "./img/hat.png",
+            "type": "accessories"
+        },
+        {
+            "name": "marimari_cat",
+            "path": "./img/marimari_cat.png",
+            "type": "accessories"
+        },
+        {
+            "name": "ribbon",
+            "path": "./img/ribbon.png",
+            "type": "accessories"
+        },
+        {
+            "name": "glass",
+            "path": "./img/glass.png",
+            "type": "accessories"
+        },
+        {
+            "name": "tie",
+            "path": "./img/tie.png",
+            "type": "accessories"
+        }
+    ]
+}
