@@ -200,6 +200,7 @@ function init() {
         let description_x = costume_background.x;
         let description_y = costume_background.y;
         for(let costume_info of costume_list){
+            // saveが有効ならば座標を変更しない。
             if(!costume_info['save_enable']){
                 if(!costume_background.hitTest(description_x + costume_info['object'].image.width/2, description_y)){
                     // 配置する衣装が外れたらダメ

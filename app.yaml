@@ -1,0 +1,10 @@
+runtime: python27
+api_version: 1
+threadsafe: yes
+
+handlers:
+- url: /
+static_files: htdocs/index.html
+upload: /
+- url: /
+static_dir: htdocs
