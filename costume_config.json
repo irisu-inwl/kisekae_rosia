@@ -2,19 +2,23 @@
     "costume_type_list": [
         {
             "type_name": "tops",
-            "description": "トップス"
+            "description": "トップス",
+            "layer":2
         },
         {
             "type_name": "bottoms",
-            "description": "ボトムス"
+            "description": "ボトムス",
+            "layer":3
         },
         {
             "type_name": "footwear",
-            "description": "履物"
+            "description": "履物",
+            "layer":4
         },
         {
             "type_name": "accessories",
-            "description": "アクセサリ"
+            "description": "アクセサリ",
+            "layer":1
         }
     ],
     "costume_info": [

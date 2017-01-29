@@ -71,7 +71,33 @@ function init() {
     costume_background.graphics.setStrokeStyle(2).beginStroke('red').beginFill('Bisque').drawRect(0, 0, 525, 800);
     stage.addChild(background);
     stage.addChild(costume_background);
-    console.log('70:costume_background.y:'+costume_background.graphics.y)
+    // 衣装設定変更ボタンを配置させる。
+    costume_type_list = get_costume_type_list();
+    let costume_type_buttons = [];
+    btn_w = 120; btn_h = 40;
+    btn_x = 50; btn_y = 0;
+    for(costume_type_obj of costume_type_list){
+        let costume_type_button = new createjs.Container(); // コンテナとしてボタンを表現
+        costume_type_button.type_name = costume_type_obj['type_name'];
+        costume_type_button.x = btn_x; costume_type_button.y = btn_y;
+        button_shape = new createjs.Shape();
+        const button_color = (selected_type == costume_type_obj['type_name']) ? 'CornflowerBlue' : 'Lavender';
+        button_shape.graphics.beginFill(button_color);
+        button_shape.graphics.drawRoundRect(0, 0, btn_w, btn_h, 10, 10); //100px*40pxの方形を描画。10pxの角丸を設定。
+        costume_type_button.shape = button_shape;
+        costume_type_button.addChild(button_shape)
+        let label = new createjs.Text(costume_type_obj['description'], "24px sans-serif", 'white');
+        label.x = btn_w / 2;
+        label.y = btn_h / 2;
+        label.textAlign = "center";
+        label.textBaseline = "middle";
+        costume_type_button.addChild(label);
+        stage.addChild(costume_type_button); // 表示リストに追加
+        costume_type_buttons.push(costume_type_button);
+        costume_type_button.addEventListener('mousedown', handle_button_mousedown);
+        btn_x += btn_w + 5;
+    }
+
     // ロージアちゃんの素体
     /**/
     var rosia_chan = new createjs.Bitmap('img/rosi_neutral.png');
@@ -79,16 +105,11 @@ function init() {
     rosia_chan.y = 50;
 
     stage.addChild(rosia_chan);
-    
     // 可視化オブジェクトはsetに格納する。
     visible_costumes = new Set();
-    // 衣装オブジェクトの初期座標設定
-    setting_object_coordinate(costume_objects[selected_type]);
-    // 可視化オブジェクトとして衣装を追加
-    visible_set_add(costume_objects[selected_type]);
-    // 可視化オブジェクトを表示
-    description_objects();
-
+    // 衣装の表示処理
+    description_costume();
+    // 衣装をクリックしたときの処理
     function handleMouseDown(event) {
         // currentTargetで、どれがマウスダウンされたか判別
         var piece = event.currentTarget;
@@ -108,7 +129,19 @@ function init() {
         }
         function handlePressUp(event) {
             updateMousePosition(); // マウスの座標に追随
-            // mergeObject()
+            // 衣装がロージアちゃんの土台に入ったら保存対象とする。
+            var pt = piece.localToLocal(0, 0, background);
+            var isHit = background.hitTest(pt.x, pt.y);
+            selected_object = (Array.from(visible_costumes.values())).find(function(elem){if(piece == elem['object']){return elem;}});
+            console.log(selected_object['name']);
+            if(isHit){
+                console.log('衣装当たり判定');
+                selected_object['save_enable'] = true;
+            }else{
+                console.log('衣装当たってない判定')
+                selected_object['save_enable'] = false;
+            }
+
             // ドラッグ関連イベントを解除
             piece.removeEventListener('pressmove', handlePressMove);
             piece.removeEventListener('pressup', handlePressUp);
@@ -133,32 +166,67 @@ function init() {
             }
         }
     }
+    /*-----------------------------
+    * ボタン押したときの処理
+    ------------------------------*/
+    function handle_button_mousedown(event){
+        let piece = event.currentTarget;
+        let selected_button = costume_type_buttons.find(function(elem){if(elem.type_name == selected_type)return elem;});
+        console.log('163'+selected_button.type_name);
+        //const button_color = (selected_type == costume_type_obj['type_name']) ? 'CornflowerBlue' : 'Lavender';
+        selected_button.shape.graphics.beginFill('Lavender');
+        selected_button.shape.graphics.drawRoundRect(0, 0, btn_w, btn_h, 10, 10); //100px*40pxの方形を描画。10pxの角丸を設定。
+        selected_type = piece.type_name;
+        piece.shape.graphics.beginFill('CornflowerBlue');
+        piece.shape.graphics.drawRoundRect(0, 0, btn_w, btn_h, 10, 10); //100px*40pxの方形を描画。10pxの角丸を設定。
+        // 可視化オブジェクトから削除
+        visible_set_unsave_object_delete();
+        description_costume();
+    }
+    // 衣装を表示させる処理
+    function description_costume(){
+        // 衣装オブジェクトの初期座標設定
+        setting_object_coordinate(costume_objects[selected_type]);
+        // 可視化オブジェクトとして衣装を追加
+        visible_set_add(costume_objects[selected_type]);
+        // 可視化オブジェクトを表示
+        description_objects();
+    }
     // オブジェクト座標を設定
     function setting_object_coordinate(costume_list){
-        console.log('costume_background.y:'+costume_background.y)
         let max_y = 0;
         let description_x = costume_background.x;
         let description_y = costume_background.y;
         for(costume_info of costume_list){
-            if(!costume_background.hitTest(description_x, description_y )){
-                // 配置する衣装が外れたらダメ
-                description_x = costume_background.x;
-                description_y += max_y;
-                max_y = 0;
+            if(!costume_info['save_enable']){
+                if(!costume_background.hitTest(description_x + costume_info['object'].image.width/2, description_y)){
+                    // 配置する衣装が外れたらダメ
+                    description_x = costume_background.x;
+                    description_y += max_y;
+                    max_y = 0;
+                }
+                costume_info['object'].x = description_x;
+                costume_info['object'].y = description_y;
+                description_x += costume_info['object'].image.width;
+                if(costume_info['object'].image.height > max_y){ max_y = costume_info['object'].image.height; }
+                //衣装のイベントリスナーを設定。
+                costume_info['object'].addEventListener('mousedown', handleMouseDown);
             }
-            costume_info['object'].x = description_x;
-            costume_info['object'].y = description_y;
-            description_x += costume_info['object'].image.width;
-            if(costume_info['object'].image.height > max_y){ max_y = costume_info['object'].image.height; }
-            costume_info['object'].addEventListener('mousedown', handleMouseDown);
-            // description_y += 
         }
     }
 
     // オブジェクトの描写
-    // TODO: 上に着る服は上に着させるようにしよう
     function description_objects(){
-        // visible_costumes_list = Array.from(visible_costumes.values());
+        // 可視化オブジェクトの順序をトップスならばスカートの上、トップスのインナーは上着の下といったソートを行う。
+        // ソートは辞書式順序で行う。
+        visible_costumes = new Set((Array.from(visible_costumes.values())).sort(function(a,b){
+                const a_type_obj = costume_type_list.find(function(elem){if(elem.type_name == a['type'])return elem;});
+                const b_type_obj = costume_type_list.find(function(elem){if(elem.type_name == b['type'])return elem;});
+                if( a_type_obj['layer'] > b_type_obj['layer'] ) return -1;
+                if( a_type_obj['layer'] < b_type_obj['layer'] ) return 1;
+                return 0;
+        }));
+        (Array.from(visible_costumes.values())).forEach(function(elem){console.log(elem['name'])});
         for(costume_info of visible_costumes){
             stage.addChild(costume_info['object']);
         }
@@ -174,8 +242,9 @@ function init() {
     // 非保存衣装を可視化オブジェクトから削除
     function visible_set_unsave_object_delete(){
         for(costume_info of visible_costumes){
-            if(costume_info[save_enable] == false){
-                visible_costumes.delete(costume_object);
+            if(costume_info['save_enable'] == false){
+                visible_costumes.delete(costume_info);
+                stage.removeChild(costume_info['object']);
             }
         }
     }
