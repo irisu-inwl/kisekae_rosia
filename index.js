@@ -219,6 +219,10 @@ function init() {
         // 可視化オブジェクトの順序をトップスならばスカートの上、トップスのインナーは上着の下といったソートを行う。
         // ソートは辞書式順序で行う。
         visible_costumes = new Set((Array.from(visible_costumes.values())).sort(function(a,b){
+                // まずは衣装情報オブジェクトのlayer情報から順序を判断 5が下のレイヤーで1が高いレイヤー
+                if( a['layer'] > b['layer'] ) return -1;
+                if( a['layer'] < b['layer'] ) return 1;
+                // 衣装情報のレイヤーが等しい場合はタイプ別のレイヤーで判断する。
                 const a_type_obj = costume_type_list.find(function(elem){if(elem.type_name == a['type']){return elem;}});
                 const b_type_obj = costume_type_list.find(function(elem){if(elem.type_name == b['type']){return elem;}});
                 if( a_type_obj['layer'] > b_type_obj['layer'] ) return -1;

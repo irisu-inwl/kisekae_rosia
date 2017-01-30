@@ -25,142 +25,171 @@
         {
             "name": "rosia_costume_upper",
             "path": "./img/rosia_costume_upper.png",
-            "type": "tops"
+            "type": "tops",
+            "layer":3
         },
         {
             "name": "rosia_costume_skirt",
             "path": "./img/rosia_costume_skirt.png",
-            "type": "bottoms"
+            "type": "bottoms",
+            "layer":3
         },
         {
             "name": "rosia_costume_tights",
             "path": "./img/rosia_costume_tights.png",
-            "type": "footwear"
+            "type": "footwear",
+            "layer":3
         },
         {
             "name": "halloween_hair",
             "path": "./img/halloween_hair.png",
-            "type": "accessories"
+            "type": "accessories",
+            "layer":1
         },
         {
             "name": "halloween_upper",
             "path": "./img/halloween_upper.png",
-            "type": "tops"
+            "type": "tops",
+            "layer":3
         },
         {
             "name": "halloween_skirt",
             "path": "./img/halloween_skirt.png",
-            "type": "bottoms"
+            "type": "bottoms",
+            "layer":3
         },
         {
             "name": "halloween_tights",
             "path": "./img/halloween_tights.png",
-            "type": "footwear"
+            "type": "footwear",
+            "layer":3
         },
         {
             "name": "summer_check_school",
             "path": "./img/summer_check_school.png",
-            "type": "tops"
+            "type": "tops",
+            "layer":3
         },
         {
             "name": "blouse_skirt",
             "path": "./img/blouse_skirt.png",
-            "type": "tops"
+            "type": "tops",
+            "layer":3
         },
         {
             "name": "sailor_long",
             "path": "./img/sailor_long.png",
-            "type": "tops"
+            "type": "tops",
+            "layer":3
         },
         {
             "name": "sailor_short",
             "path": "./img/sailor_short.png",
-            "type": "tops"
+            "type": "tops",
+            "layer":3
         },
         {
             "name": "turtle",
             "path": "./img/turtle.png",
-            "type": "tops"
+            "type": "tops",
+            "layer":4
+            
         },
         {
             "name": "blazer_black",
             "path": "./img/blazer_black.png",
-            "type": "tops"
+            "type": "tops",
+            "layer":2
         },
         {
             "name": "blazer_white",
             "path": "./img/blazer_white.png",
-            "type": "tops"
+            "type": "tops",
+            "layer":2
         },
         {
             "name": "cardigan",
             "path": "./img/cardigan.png",
-            "type": "tops"
+            "type": "tops",
+            "layer":2
         },
         {
             "name": "nit",
             "path": "./img/nit.png",
-            "type": "tops"
+            "type": "tops",
+            "layer":2
         },
         {
             "name": "jacklyn_parker",
             "path": "./img/jacklyn_parker.png",
-            "type": "tops"
+            "type": "tops",
+            "layer":2
         },
         {
             "name": "pleat_long_black",
             "path": "./img/pleat_long_black.png",
-            "type": "bottoms"
+            "type": "bottoms",
+            "layer":3
         },
         {
             "name": "pleat_short_black",
             "path": "./img/pleat_short_black.png",
-            "type": "bottoms"
+            "type": "bottoms",
+            "layer":3
         },
         {
             "name": "short_pants",
             "path": "./img/short_pants.png",
-            "type": "bottoms"
+            "type": "bottoms",
+            "layer":3
         },
         {
             "name": "socks_black",
             "path": "./img/socks_black.png",
-            "type": "footwear"
+            "type": "footwear",
+            "layer":3
         },
         {
             "name": "tights",
             "path": "./img/tights.png",
-            "type": "footwear"
+            "type": "footwear",
+            "layer":3
         },
         {
             "name": "loafer",
             "path": "./img/loafer.png",
-            "type": "footwear"
+            "type": "footwear",
+            "layer":2
         },
         {
             "name": "hat",
             "path": "./img/hat.png",
-            "type": "accessories"
+            "type": "accessories",
+            "layer":1
         },
         {
             "name": "marimari_cat",
             "path": "./img/marimari_cat.png",
-            "type": "accessories"
+            "type": "accessories",
+            "layer":1
         },
         {
             "name": "ribbon",
             "path": "./img/ribbon.png",
-            "type": "accessories"
+            "type": "accessories",
+            "layer":4
         },
         {
             "name": "glass",
             "path": "./img/glass.png",
-            "type": "accessories"
+            "type": "accessories",
+            "layer":1
         },
         {
             "name": "tie",
             "path": "./img/tie.png",
-            "type": "accessories"
+            "type": "accessories",
+            "layer":3
         }
     ]
 }
