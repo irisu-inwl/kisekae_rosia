@@ -1,18 +1,15 @@
 let load_config = {};
-function getJSON(){
-    var req = new XMLHttpRequest(); // HTTPでファイルを読み込むためのXMLHttpRrequestオブジェクトを生成
-    req.open('get', 'costume_config.json', true); // アクセスするファイルを指定
-    req.overrideMimeType("text/plain; charset=UTF-8");
-    req.send(null); // HTTPリクエストの発行
-	
-    // レスポンスが返ってきたらconvertCSVtoArray()を呼ぶ	
-    req.onload = function(){
-	    load_config = JSON.parse(req.responseText);
-    }
-}
 
-window.addEventListener('load', init);
-getJSON();
+$.ajax({type : 'GET',
+        url : 'costume_config.json',
+        async : false,
+        dataType : 'json',
+        success : function(data){
+            console.log(data);
+            load_config = data;
+            window.addEventListener('load', init); 
+        }
+});
 
 function create_costume_list(){
     // jsonから衣装オブジェクトのリストを読み込む
@@ -222,8 +219,8 @@ function init() {
         // 可視化オブジェクトの順序をトップスならばスカートの上、トップスのインナーは上着の下といったソートを行う。
         // ソートは辞書式順序で行う。
         visible_costumes = new Set((Array.from(visible_costumes.values())).sort(function(a,b){
-                const a_type_obj = costume_type_list.find(function(elem){if(elem.type_name == a['type'])return elem;});
-                const b_type_obj = costume_type_list.find(function(elem){if(elem.type_name == b['type'])return elem;});
+                const a_type_obj = costume_type_list.find(function(elem){if(elem.type_name == a['type']){return elem;}});
+                const b_type_obj = costume_type_list.find(function(elem){if(elem.type_name == b['type']){return elem;}});
                 if( a_type_obj['layer'] > b_type_obj['layer'] ) return -1;
                 if( a_type_obj['layer'] < b_type_obj['layer'] ) return 1;
                 return 0;
