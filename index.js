@@ -5,11 +5,40 @@ $.ajax({type : 'GET',
         async : false,
         dataType : 'json',
         success : function(data){
-            console.log(data);
             load_config = data;
-            window.addEventListener('load', init); 
+            window.addEventListener('load', init_preload); 
         }
 });
+
+function init_preload(handle){
+    let manifest=[];
+    let queue = new createjs.LoadQueue(true);
+    queue.setMaxConnections(5);
+
+    for(let costume of load_config['costume_info']){
+        const obj_id = costume['name'];
+        const obj_src = costume['path'];
+        let obj = {id:obj_id,src:obj_src}
+        manifest.push(obj);
+    }
+    queue.addEventListener('complete',handle_complete);
+    queue.addEventListener('fileload',handle_load);
+    console.log(JSON.stringify(manifest));
+    queue.loadManifest(manifest);
+    function handle_load(event){
+        let result = event.item;
+        console.log(result);
+        //document.body.appendChild(result);
+    }
+    function handle_complete(event){
+        for(let costume of load_config['costume_info']){
+            let image = queue.getResult(costume['name']);
+            costume['object'] = new createjs.Bitmap(image);
+        }
+
+        init_main();
+    }
+}
 
 function create_costume_list(){
     // jsonから衣装オブジェクトのリストを読み込む
@@ -28,7 +57,8 @@ function create_costume_list(){
     }
     for(let costume of load_config['costume_info']){
         // ついでにこの中にObjectを入れちゃう。
-        costume['object'] = new createjs.Bitmap(costume['path']);
+        // 上のプレロードで行うようにする。
+        // costume['object'] = new createjs.Bitmap(costume['path']);
         // 画面に表示を残すかのboolean
         costume['save_enable'] = false;
 
@@ -45,7 +75,7 @@ function get_costume_type_list(){
 }
 
 
-function init() {
+function init_main() {
     // Stageオブジェクトを作成。表示リストのルートになります。
     var stage = new createjs.Stage('rosia_kisekae');
     // 現在表示する衣装
@@ -62,10 +92,13 @@ function init() {
     background.x = 600;
     background.y = 50;
     background.graphics.setStrokeStyle(2).beginStroke('red').beginFill('Bisque').drawRect(0, 0, 550, 800);
-    // 衣装置く度台
-    costume_background.x = 50;
-    costume_background.y = 50;
-    costume_background.graphics.setStrokeStyle(2).beginStroke('red').beginFill('Bisque').drawRect(0, 0, 525, 800);
+    // 衣装置く土台
+    // とりあえず脳死で土台サイズをグローバルに持たせて参照させる。
+    // TODO: もっと良い方法を考えて…
+    const cosbg_x = 50; const cosbg_y = 50; const cosbg_w = 525; const cosbg_h = 800;
+    costume_background.x = cosbg_x;
+    costume_background.y = cosbg_y;
+    costume_background.graphics.setStrokeStyle(2).beginStroke('red').beginFill('Bisque').drawRect(0, 0, cosbg_w, cosbg_h);
     stage.addChild(background);
     stage.addChild(costume_background);
     // 衣装設定変更ボタンを配置させる。
@@ -133,10 +166,8 @@ function init() {
             let selected_object = (Array.from(visible_costumes.values())).find(function(elem){if(piece == elem['object']){return elem;}});
             console.log(selected_object['name']);
             if(isHit){
-                console.log('衣装当たり判定');
                 selected_object['save_enable'] = true;
             }else{
-                console.log('衣装当たってない判定')
                 selected_object['save_enable'] = false;
             }
 
@@ -171,7 +202,6 @@ function init() {
     function handle_button_mousedown(event){
         let piece = event.currentTarget;
         let selected_button = costume_type_buttons.find(function(elem){if(elem.type_name == selected_type)return elem;});
-        console.log('163'+selected_button.type_name);
         //const button_color = (selected_type == costume_type_obj['type_name']) ? 'CornflowerBlue' : 'Lavender';
         selected_button.shape.graphics.beginFill('Lavender');
         selected_button.shape.graphics.drawRoundRect(0, 0, btn_w, btn_h, 10, 10); //100px*40pxの方形を描画。10pxの角丸を設定。
@@ -198,7 +228,8 @@ function init() {
         let description_y = costume_background.y;
         for(let costume_info of costume_list){
             if(!costume_info['save_enable']){
-                if(!costume_background.hitTest(description_x + costume_info['object'].image.width/2, description_y)){
+                if(costume_info['object'].image.height > max_y){ max_y = costume_info['object'].image.height; }
+				if(!costume_background.hitTest(description_x + costume_info['object'].image.width/2, description_y)){
                     // 配置する衣装が外れたらダメ
                     description_x = costume_background.x;
                     description_y += max_y;
@@ -207,7 +238,7 @@ function init() {
                 costume_info['object'].x = description_x;
                 costume_info['object'].y = description_y;
                 description_x += costume_info['object'].image.width;
-                if(costume_info['object'].image.height > max_y){ max_y = costume_info['object'].image.height; }
+                
                 //衣装のイベントリスナーを設定。
                 costume_info['object'].addEventListener('mousedown', handleMouseDown);
             }

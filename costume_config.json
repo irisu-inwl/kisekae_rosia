@@ -177,7 +177,7 @@
             "name": "ribbon",
             "path": "./img/ribbon.png",
             "type": "accessories",
-            "layer":4
+            "layer":3
         },
         {
             "name": "glass",
